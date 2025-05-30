@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# 植在 Plantie
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 專案簡介
+Plantie 是一個專注於台灣市場的綠植二手交易與社群互動平台，結合社群內容與信任機制，打造安全、活躍的綠植交易生態。
 
-## Get started
+## 目標用戶與核心價值
+- 目標用戶：新手園藝愛好者、資深玩家、裝飾需求者、專業/業餘賣家
+- 核心價值：降低綠植交易門檻，促進知識與經驗交流，提升交易安全與信任
 
-1. Install dependencies
+## MVP核心功能
+1. **用戶註冊與登入**
+   - 手機號碼驗證（賣家必須綁定，支援公司註冊）
+   - Email註冊
+   - 第三方登入（LINE/Google/FB）
+   - 匿名瀏覽（部分內容）
+2. **商品上架與管理**
+   - 上傳圖片、填寫資訊、編輯/刪除、標籤分類
+3. **商品瀏覽與搜尋**
+   - 商品列表、關鍵字搜尋、分類篩選、詳情頁
+4. **交易流程**
+   - 下單、聊天/議價、線上支付、訂單管理、物流選擇（超商/宅配/面交自取）
+   - 支援 a-c-e 或 b-a-c-e 流程
+5. **評價與信譽**
+   - 互評、信譽分數、星級、成交查閱、賣家秀
+6. **社群互動**
+   - 發文、留言、點讚、收藏、關注，社群頁面參考X（推特）
+7. **輔助功能**
+   - 商品分享、客服/回報、知識內容由用戶生成
 
-   ```bash
-   npm install
-   ```
+## 用戶流程簡述
+- 新用戶可匿名瀏覽，註冊後可參與交易與社群互動
+- 賣家需手機驗證，商品上架簡便
+- 買家可瀏覽、搜尋、下單、議價，選擇支付與物流方式
+- 交易完成後可互評，信譽分數影響曝光
+- 社群頁面可發文、互動，促進用戶留存
 
-2. Start the app
+## 目前進度與後續規劃
+- 已完成市場分析、商業模式、MVP功能討論
+- 下一步：完善用戶旅程、UI/UX設計，確定技術與開發路線
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 首頁商品流設計與 MasonryList 使用
+- MasonryList 外層必須用 SafeAreaView style={{ flex: 1 }}
+- header（Banner、分類、猜你喜歡等）不可包在 ScrollView 裡，應直接渲染在 MasonryList 上方
+- MasonryList 不設死高度，讓其自動填滿剩餘空間，確保可滾動
+- 商品流支援商品/貼文混合，mock data 可加 tag/label 屬性，未來可根據算法推送不同內容 

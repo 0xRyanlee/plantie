@@ -1,0 +1,2 @@
+# 新增規則：
+- 所有涉及視覺佈局（如 flex、position、padding、margin、width、height、顏色、zIndex、絕對/相對定位等）的元件、樣式、props，必須加上詳細繁體中文註解，說明每個屬性/區塊的用途與調整建議，方便後續手動微調。 

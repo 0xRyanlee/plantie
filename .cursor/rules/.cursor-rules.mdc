@@ -1,0 +1,133 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Plantie 專案規範
+
+## 專案基本資訊
+- 名稱：Plantie
+- 描述：二手植物交易與社群平台（React Native + Expo 行動端優先）
+- MVP 範圍：
+  - 核心功能：用戶認證與個人檔案、商品上架與瀏覽、基礎聊天功能、訂單管理、簡單社群功能
+  - 排除功能：進階會員制度、複雜推薦系統、多語言支持、第三方整合
+- 技術棧：
+  - 前端：React Native、Expo、TypeScript、shadcn/ui（RN 版）、NativeWind、Zustand、react-hook-form、zod
+  - 後端：Supabase（Auth、Storage、PostgreSQL）
+  - DevOps：EAS（Expo Application Services）、GitHub Actions、App Store、Google Play
+
+## 目錄結構
+- app：App Router 頁面入口（auth、marketplace、community、api）
+- components：可重用 React 元件（ui、forms、layout、shared）
+- features：業務邏輯模組（auth、product、order、chat、community）
+- lib：工具函式與 API 客戶端（api、utils、types、constants）
+- hooks：自定義 React Hooks
+- styles：Tailwind 與全域樣式
+- public：靜態資源
+- docs：專案文件（analysis、plan）
+
+## 命名規範
+- 檔案：kebab-case（如 product-card.tsx、use-auth.ts）
+- 元件：PascalCase（如 ProductCard、AuthForm）
+- 函式：camelCase（如 handleSubmit、fetchProducts）
+- API 路由：kebab-case（如 /api/products）
+- 文件：snake_case（如 README.md、market_analysis.md）
+
+## 程式風格
+- 縮排：2 空格
+- 引號：單引號
+- 分號：可選
+- 行長：80
+- TypeScript：strict、禁止 any
+- 每個區塊、主要參數、資料來源、元件用途都加上詳細中文註解，讓你能快速理解每一段的功能與參數範圍
+
+## 元件規則
+- UI 框架：shadcn/ui（RN 版）
+- 樣式：NativeWind（Tailwind for RN）
+- 原則：單一職責、Props 型別明確、支援無障礙、避免過度巢狀、跨平台一致性
+
+## API 規範
+- 後端：Supabase
+- 狀態管理：Zustand
+- 錯誤處理：必須有 loading/error 狀態
+- 型別安全：必須 schema 驗證
+
+## 測試
+- 單元測試：Jest
+- E2E：Detox
+- UI 測試：Testing Library (React Native)
+- 覆蓋率：70% 以上
+- 必須在 iOS/Android 真機與模擬器測試
+
+## 部署
+- 平台：App Store、Google Play
+- 構建工具：EAS Build
+- OTA 更新：EAS Update
+- 自動部署：main 分支預覽
+- 商店審核：重視隱私權與權限說明
+
+## Git 工作流
+- Commit：conventional commits
+- 分支前綴：feature/、fix/、docs/
+- PR 要求：審查通過、測試通過、lint 通過
+
+## 安全性
+- 環境變數：必須、禁止 commit
+- API 金鑰：必須、僅存於環境變數
+- 認證：Supabase Auth，支援 email、authenticator
+- Session：7 天，sliding renewal
+- API 安全：限流、CORS、僅允許指定來源
+- 資料保護：傳輸/靜態加密、每日備份
+
+## 文件規範
+- 必備文件：README.md、RD.md、market_analysis.md、project_plan.md、user_journey.md
+- Markdown 規則：
+  - 語言：繁體中文
+  - 標題：#、##、### 分層
+  - 強調：粗體、列表、表格
+  - 程式碼區塊：``` 標註
+  - 圖片/流程圖：![]()
+  - 分段清楚
+  - 內容原則：重點明確、聚焦專案、標註決策依據
+  - 版本控制：文件開頭加註修訂紀錄
+  - 定期審查，聚焦內容時效與進度同步
+- API 文件：OpenAPI/Swagger
+
+## 品牌與視覺規範
+- LOGO：Plantie，深綠色 #14532d，僅 LOGO 使用
+- 主色：#14532d
+- 全局色盤：黑白灰
+- UI 參考：shadcn/ui 官方設計語言（RN 版）
+
+## 國際化與平台適配
+- 多語言：支援 zh-TW、en
+- 預設語系：zh-TW
+- i18n：expo-localization + i18next
+- 日期時間：dayjs
+- RTL 支援
+
+## 平台適配
+- iOS/Android 一致性
+- 響應式設計：Flexbox + SafeAreaView
+- 支援裝置特性：StatusBar、Notch、KeyboardAvoidingView
+- 最小寬度 375px，支援平板
+
+## Native API 存取
+- 權限管理：expo-permissions
+- 媒體：expo-image-picker、expo-camera
+- 推播：expo-notifications
+- 定位：expo-location
+- Deep Linking：expo-linking
+
+## RN 專屬最佳實踐
+- 導航：@react-navigation/native
+- 狀態管理：Zustand + Context
+- 效能優化：FlatList、圖片快取、避免不必要 re-render
+- 錯誤處理：全局 ErrorBoundary + Toast
+- 無障礙：accessibilityLabel、accessible、動態字體
+- 安全性：敏感資訊不落地、SecureStore 儲存 token
+
+## 團隊開發流程原則
+- 每次開發前，必須先查閱相關文檔（規範、設計、API、數據結構等）
+- 每次任務完成後，必須同步更新相關文檔（任務追蹤、API、設計、數據結構等）
+- 每次開發任務不需用戶催促，應自動推進、最大化完成內容，避免重複確認已確定的下一步，盡量每次對話之間盡可能多地執行任務以減少用戶request次數，在一次對話內完成並且更新進度在開發文檔中。
