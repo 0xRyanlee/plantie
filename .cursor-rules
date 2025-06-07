@@ -1,2 +1,8 @@
 # 新增規則：
 - 所有涉及視覺佈局（如 flex、position、padding、margin、width、height、顏色、zIndex、絕對/相對定位等）的元件、樣式、props，必須加上詳細繁體中文註解，說明每個屬性/區塊的用途與調整建議，方便後續手動微調。 
+
+# Plantie 專案 Cursor Rules
+
+- docs/Project & Dev Plan.md 為唯一指定開發文檔，所有開發進度、規劃、任務、決策僅更新此文件。
+- 其他 docs 目錄下文件（如 user_journey.md、components.md、ui-ux.md、RD.md、README.md、market_analysis.md、database-schema.md、development-tasks.md）皆不再維護，內容如需保留請手動合併至 Project & Dev Plan.md。
+- 任何新功能、需求、規劃、修訂，請務必同步記錄於 Project & Dev Plan.md。 

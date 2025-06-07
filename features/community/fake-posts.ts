@@ -1,6 +1,8 @@
 import { Post } from '@/lib/types/post'
 
-export const fakePosts: Post[] = [
+export type Category = '全部' | '多肉' | '陽台' | '推薦' | '經驗' | '分享'
+
+export const fakePosts: (Post & { category: Category })[] = [
   {
     id: '1',
     type: 'post',
@@ -12,6 +14,7 @@ export const fakePosts: Post[] = [
     createdAt: '2024-06-10T10:00:00Z',
     likes: 12,
     comments: 3,
+    category: '多肉',
   },
   {
     id: '2',
@@ -24,6 +27,7 @@ export const fakePosts: Post[] = [
     createdAt: '2024-06-09T15:30:00Z',
     likes: 8,
     comments: 2,
+    category: '陽台',
   },
   {
     id: '3',
@@ -40,5 +44,7 @@ export const fakePosts: Post[] = [
     createdAt: '2024-06-08T20:10:00Z',
     likes: 20,
     comments: 5,
+    category: '推薦',
   },
+  // 更多假資料...
 ] 

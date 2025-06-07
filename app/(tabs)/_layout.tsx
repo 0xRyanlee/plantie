@@ -34,21 +34,33 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="favorite"
+        name="community/index"
         options={{
-          title: '收藏',
+          title: '社群',
         }}
       />
       <Tabs.Screen
-        name="community"
+        name="chat"
         options={{
-          title: '社群',
+          title: '聊天',
+        }}
+      />
+      <Tabs.Screen
+        name="favorite/index"
+        options={{
+          title: '收藏',
         }}
       />
       <Tabs.Screen
         name="user"
         options={{
           title: '我的',
+        }}
+      />
+      <Tabs.Screen
+        name="explore/index"
+        options={{
+          title: '探索',
         }}
       />
     </Tabs>

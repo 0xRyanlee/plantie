@@ -1,15 +1,44 @@
+import * as ImagePicker from 'expo-image-picker'
 import React, { useState } from 'react'
 import { Alert, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 /**
  * 發新帖編輯器
- * 支援標題、內容、圖片URL、tag 輸入，預覽發文內容，發佈時 alert 輸入資料
+ * 支援標題、內容、多圖本地選擇、tag 輸入，預覽發文內容，發佈時 alert 輸入資料
  */
 export default function PostEditor({ onClose }: { onClose: () => void }) {
+  // 標題、內容、標籤狀態
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
   const [tags, setTags] = useState<string>('')
+  // 多圖本地選擇狀態（儲存 uri 陣列）
+  const [images, setImages] = useState<string[]>([])
+
+  // 選擇多張圖片
+  const pickImages = async () => {
+    // 請求權限
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (status !== 'granted') {
+      Alert.alert('權限不足', '請允許存取相簿以選擇圖片')
+      return
+    }
+    // 選擇圖片（多選）
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      quality: 0.8,
+    })
+    if (!result.canceled) {
+      // 新增選取的圖片 uri
+      const uris = result.assets.map(asset => asset.uri)
+      setImages(prev => [...prev, ...uris])
+    }
+  }
+
+  // 刪除已選圖片
+  const removeImage = (idx: number) => {
+    setImages(prev => prev.filter((_, i) => i !== idx))
+  }
 
   // 發佈貼文
   const handleSubmit = () => {
@@ -17,12 +46,21 @@ export default function PostEditor({ onClose }: { onClose: () => void }) {
       Alert.alert('請填寫標題與內容')
       return
     }
-    Alert.alert('發文內容', JSON.stringify({ title, content, imageUrl, tags: tags.split(',').map(t => t.trim()) }, null, 2))
+    Alert.alert(
+      '發文內容',
+      JSON.stringify({
+        title,
+        content,
+        images,
+        tags: tags.split(',').map(t => t.trim()),
+      }, null, 2)
+    )
     onClose()
   }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* 標題輸入 */}
       <Text style={styles.label}>標題</Text>
       <TextInput
         style={styles.input}
@@ -31,6 +69,7 @@ export default function PostEditor({ onClose }: { onClose: () => void }) {
         onChangeText={setTitle}
         maxLength={40}
       />
+      {/* 內容輸入 */}
       <Text style={styles.label}>內容</Text>
       <TextInput
         style={[styles.input, { height: 100 }]}
@@ -39,14 +78,27 @@ export default function PostEditor({ onClose }: { onClose: () => void }) {
         onChangeText={setContent}
         multiline
       />
-      <Text style={styles.label}>圖片網址（可選）</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="https://..."
-        value={imageUrl}
-        onChangeText={setImageUrl}
-      />
-      {imageUrl ? <Image source={{ uri: imageUrl }} style={styles.previewImg} /> : null}
+      {/* 多圖本地選擇 */}
+      <Text style={styles.label}>圖片（可多選）</Text>
+      <TouchableOpacity style={[styles.btn, { backgroundColor: '#e5e7eb', marginBottom: 8 }]} onPress={pickImages} accessibilityLabel="選擇圖片">
+        <Text style={{ color: '#14532d', fontWeight: 'bold' }}>選擇圖片</Text>
+      </TouchableOpacity>
+      {/* 已選圖片預覽，可刪除 */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 8 }}>
+        {images.map((uri, idx) => (
+          <View key={uri} style={{ marginRight: 8, position: 'relative' }}>
+            <Image source={{ uri }} style={{ width: 80, height: 80, borderRadius: 8 }} />
+            <TouchableOpacity
+              style={{ position: 'absolute', top: 2, right: 2, backgroundColor: '#fff', borderRadius: 10, padding: 2 }}
+              onPress={() => removeImage(idx)}
+              accessibilityLabel="刪除圖片"
+            >
+              <Text style={{ color: '#ef4444', fontWeight: 'bold', fontSize: 12 }}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+      {/* 標籤輸入 */}
       <Text style={styles.label}>標籤（以逗號分隔）</Text>
       <TextInput
         style={styles.input}
@@ -57,7 +109,12 @@ export default function PostEditor({ onClose }: { onClose: () => void }) {
       {/* 預覽區塊 */}
       <Text style={styles.label}>預覽</Text>
       <View style={styles.previewCard}>
-        {imageUrl ? <Image source={{ uri: imageUrl }} style={styles.previewImg} /> : null}
+        {/* 多圖預覽 */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {images.map(uri => (
+            <Image key={uri} source={{ uri }} style={{ width: 80, height: 80, borderRadius: 8, marginRight: 8 }} />
+          ))}
+        </ScrollView>
         <Text style={styles.previewTitle}>{title || '（標題）'}</Text>
         <Text style={styles.previewContent}>{content || '（內容）'}</Text>
         <Text style={styles.previewTags}>{tags ? tags.split(',').map(t => `#${t.trim()}`).join(' ') : ''}</Text>

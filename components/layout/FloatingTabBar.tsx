@@ -6,8 +6,8 @@ import { Animated, Platform, StyleSheet, TouchableOpacity, View } from 'react-na
 const TABS = [
   { key: 'index', icon: 'home', label: '首頁' },
   { key: 'market', icon: 'grid', label: '分類' },
-  { key: 'favorite', icon: 'heart', label: '收藏' },
-  { key: 'community', icon: 'message-circle', label: '社群' },
+  { key: 'community/index', icon: 'heart', label: '社群' },
+  { key: 'chat', icon: 'message-circle', label: '聊天' },
   { key: 'user', icon: 'user', label: '我的' },
 ]
 
@@ -15,6 +15,7 @@ const MAIN_COLOR = '#14532d'
 
 export default function FloatingTabBar({ state, navigation, insets }: BottomTabBarProps) {
   const currentIndex = state.index
+  console.log('Tab routes:', state.routes.map(r => r.name));
   return (
     <View style={[styles.floatingBar, { bottom: (insets?.bottom || 0) + 12 }]}> 
       {TABS.map((tab, idx) => {
@@ -83,4 +84,4 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
-}) 
+})
